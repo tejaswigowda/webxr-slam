@@ -119,9 +119,13 @@
         const height = session.renderState.baseLayer.framebufferHeight;
         gl.enable(gl.SCISSOR_TEST);
         gl.scissor(0,0, width, height);
-        let time = Date.now();
-        //gl.clearColor(Math.cos(time / 2000), Math.cos(time / 4000), Math.cos(time / 6000), 0.5);
-        //gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+        //  black bg
+        gl.clearColor(0, 0, 0, 1);
+        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);        
+        // let time = Date.now();
+        // gl.clearColor(Math.cos(time / 2000), Math.cos(time / 4000), Math.cos(time / 6000), 0.5);
+        // gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
         let pose = frame.getViewerPose(xrRefSpace);
         if (pose) {
