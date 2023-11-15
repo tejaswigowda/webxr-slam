@@ -129,7 +129,8 @@
           const q = pose.transform.orientation;
 
           document.getElementById('pose').innerText = "Position: " +
-            p.x.toFixed(3) + ", " + p.y.toFixed(3) + ", " + p.z.toFixed(3) + " " + q.x.toFixed(3) + ", " + q.y.toFixed(3) + ", " + q.z.toFixed(3) + ", " + q.w.toFixed(3);
+            p.x.toFixed(3) + ", " + p.y.toFixed(3) + ", " + p.z.toFixed(3) + "<br " +
+            "Orientation: " + q.x.toFixed(3) + ", " + q.y.toFixed(3) + ", " + q.z.toFixed(3) + ", " + q.w.toFixed(3);
         } else {
           document.getElementById('pose').innerText = "Position: (null pose)";
         }
