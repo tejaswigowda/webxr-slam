@@ -295,8 +295,7 @@
         z: [[p.z]]
       };
 
-      alert(update.x);
-
+      document.getElementById("details").innerHTML = JSON.stringify(update);
       Plotly.restyle('plot', update);
 
 
