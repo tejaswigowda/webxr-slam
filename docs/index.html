@@ -287,12 +287,12 @@
       var q1 = new Quaternion(q.w, q.x, q.y, q.z);
       document.getElementById("cube").style.transform = 'translateZ(-100px) matrix3d(' + q1.toMatrix4() + ')';
 
+      // append data
 
       var update = {
-        x: thePlot.data[0].x.concat([p.x]),
-        y: thePlot.data[1].y.concat([p.y]),
-        z: thePlot.data[2].z.concat([p.z]),
-        'marker.color': 'red'
+        x: [[p.x]],
+        y: [[p.y]],
+        z: [[p.z]]
       };
 
       alert(update.x);
