@@ -135,6 +135,9 @@
       <div id="warning-zone"></div>
     </header>
   </div>
+  <script>
+        var thePlot;
+  </script>
   <script type="module">
     // XR globals.
     let xrButton = document.getElementById('xr-button');
@@ -170,8 +173,8 @@
     }
 
     function initPlot() {
-
-      Plotly.newPlot('plot', [{
+      document.getElementById('inAR').style.display = 'block';
+      thePlot = Plotly.newPlot('plot', [{
         type: 'scatter3d',
         mode: 'lines+markers',
         x: [0],
@@ -179,12 +182,12 @@
         z: [0],
         line: {
           width: 6,
-          color: c,
+          color: 'rgb(0, 0, 0)',
           colorscale: "Viridis"
         },
         marker: {
           size: 3.5,
-          color: c,
+          color: 'rgb(0, 0, 0)',
           colorscale: "Greens",
           cmin: -20,
           cmax: 50
@@ -282,9 +285,16 @@
         "Orientation: <br>" + q.x.toFixed(3) + ", " + q.y.toFixed(3) + ", " + q.z.toFixed(3) + ", " + q.w.toFixed(3);
       var q1 = new Quaternion(q.w, q.x, q.y, q.z);
       document.getElementById("cube").style.transform = 'translateZ(-100px) matrix3d(' + q1.toMatrix4() + ')';
+
+      thePlot.data[0].x.push(p.x);
+      thePlot.data[0].y.push(p.y);
+      thePlot.data[0].z.push(p.z);
+
+      Plotly.redraw('plot');
     }
 
     initXR();
+    //initPlot();
   </script>
 </body>
 
