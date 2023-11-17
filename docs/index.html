@@ -9,8 +9,8 @@
   <script src="quaternion.min.js"></script>
   <style>
     .cube {
-      width: 20px;
-      height: 20px;
+      width: 40px;
+      height: 40px;
       position: fixed;
       transform-style: preserve-3d;
       transform: translateZ(-100px);
@@ -18,33 +18,33 @@
     }
 
     .cube.show-front {
-      transform: translateZ(-100px) rotateY(0deg);
+      transform: translateZ(-20px) rotateY(0deg);
     }
 
     .cube.show-right {
-      transform: translateZ(-100px) rotateY(-90deg);
+      transform: translateZ(-20px) rotateY(-90deg);
     }
 
     .cube.show-back {
-      transform: translateZ(-100px) rotateY(-180deg);
+      transform: translateZ(-20px) rotateY(-180deg);
     }
 
     .cube.show-left {
-      transform: translateZ(-100px) rotateY(90deg);
+      transform: translateZ(-20px) rotateY(90deg);
     }
 
     .cube.show-top {
-      transform: translateZ(-100px) rotateX(-90deg);
+      transform: translateZ(-20px) rotateX(-90deg);
     }
 
     .cube.show-bottom {
-      transform: translateZ(-100px) rotateX(90deg);
+      transform: translateZ(-20px) rotateX(90deg);
     }
 
     .cube__face {
       position: absolute;
-      width: 20px;
-      height: 20px;
+      width: 40px;
+      height: 40px;
       border: 0px solid black;
       line-height: 200px;
       font-size: 0px;
