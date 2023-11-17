@@ -131,7 +131,7 @@
           <div class="cube__face cube__face--top">top</div>
           <div class="cube__face cube__face--bottom">bottom</div>
         </div>
-        <div id="plot" style="width: 100vw; height: 80vh; background-color: white;"></div>
+        <div id="plot" style="width: 100vw; height: 80vh; background-color: white;filter:invert(-1)"></div>
       </div>
       <div id="warning-zone"></div>
     </header>
@@ -290,12 +290,12 @@
 
       var update = {
         x: thePlot.data[0].x.concat([p.x]),
-        y: thePlot.data[0].y.concat([p.y]),
-        z: thePlot.data[0].z.concat([p.z]),
+        y: thePlot.data[1].y.concat([p.y]),
+        z: thePlot.data[2].z.concat([p.z]),
         'marker.color': 'red'
       };
 
-      Plotly.restyle('plot', update, [0]);
+      Plotly.restyle('plot', update);
 
 
     }
