@@ -17,7 +17,7 @@
       transform-style: preserve-3d;
       transform: translateZ(-20px);
       right: 45px;
-      margin-top: -50px;
+      margin-top: -70px;
     }
 
     .cube.show-front {
@@ -137,7 +137,7 @@
     </header>
   </div>
   <script>
-        var thePlot;
+    var thePlot;
   </script>
   <script type="module">
     // XR globals.
@@ -288,18 +288,16 @@
       document.getElementById("cube").style.transform = 'translateZ(-100px) matrix3d(' + q1.toMatrix4() + ')';
 
 
-      // add position to plot
-      thePlot.flow({
+      var update = {
         x: [[p.x]],
         y: [[p.y]],
         z: [[p.z]],
-        marker: {
-          color: 'rgb(0, 0, 0)',
-          colorscale: "Greens",
-          cmin: -20,
-          cmax: 50
-        }
-      });
+        'marker.color': 'red'
+      };
+
+      Plotly.restyle('plot', update, [0]);
+
+
     }
 
     initXR();
