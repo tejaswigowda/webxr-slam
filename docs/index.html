@@ -17,6 +17,7 @@
       transform-style: preserve-3d;
       transform: translateZ(-20px);
       right: 45px;
+      margin-top: -50px;
     }
 
     .cube.show-front {
@@ -286,11 +287,19 @@
       var q1 = new Quaternion(q.w, q.x, q.y, q.z);
       document.getElementById("cube").style.transform = 'translateZ(-100px) matrix3d(' + q1.toMatrix4() + ')';
 
-      thePlot.data[0].x.push(p.x);
-      thePlot.data[0].y.push(p.y);
-      thePlot.data[0].z.push(p.z);
 
-      Plotly.redraw('plot');
+      // add position to plot
+      thePlot.flow({
+        x: [[p.x]],
+        y: [[p.y]],
+        z: [[p.z]],
+        marker: {
+          color: 'rgb(0, 0, 0)',
+          colorscale: "Greens",
+          cmin: -20,
+          cmax: 50
+        }
+      });
     }
 
     initXR();
