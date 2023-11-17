@@ -169,6 +169,30 @@
       }
     }
 
+    function initPlot() {
+
+      Plotly.newPlot('plot', [{
+        type: 'scatter3d',
+        mode: 'lines+markers',
+        x: [0],
+        y: [0],
+        z: [0],
+        line: {
+          width: 6,
+          color: c,
+          colorscale: "Viridis"
+        },
+        marker: {
+          size: 3.5,
+          color: c,
+          colorscale: "Greens",
+          cmin: -20,
+          cmax: 50
+        }
+      },
+      ]);
+    }
+
     function onButtonClicked() {
       if (!xrSession) {
         navigator.xr.requestSession('immersive-ar', {
@@ -176,30 +200,7 @@
           domOverlay: { root: document.getElementById('overlay') }
         }).then(onSessionStarted, onRequestSessionError);
         document.getElementById('inAR').style.display = 'block';
-
-
-        Plotly.newPlot('plot', [{
-          type: 'scatter3d',
-          mode: 'lines+markers',
-          x: [0],
-          y: [0],
-          z: [0],
-          line: {
-            width: 6,
-            color: c,
-            colorscale: "Viridis"
-          },
-          marker: {
-            size: 3.5,
-            color: c,
-            colorscale: "Greens",
-            cmin: -20,
-            cmax: 50
-          }
-        },
-        ]);
-
-
+        initPlot();
       } else {
         xrSession.end();
         document.getElementById('inAR').style.display = 'none';
