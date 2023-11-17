@@ -118,7 +118,6 @@
       <button id="xr-button" class="barebones-button" disabled>XR not found</button>
 
       <div id="inAR" style="display: none;">
-        <div id="session-info"></div>
         <div id="pose"></div>
         <div id='cube' class="cube">
           <div class="cube__face cube__face--front">front</div>
@@ -186,7 +185,6 @@
 
       // Show which type of DOM Overlay got enabled (if any)
       if (session.domOverlayState) {
-        document.getElementById('session-info').innerHTML = 'DOM Overlay type: ' + session.domOverlayState.type;
       }
 
       session.addEventListener('end', onSessionEnded);
@@ -214,7 +212,6 @@
     function onSessionEnded(event) {
       xrSession = null;
       xrButton.innerHTML = 'Start';
-      document.getElementById('session-info').innerHTML = '';
       gl = null;
     }
 
