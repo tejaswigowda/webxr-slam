@@ -276,7 +276,7 @@
         updatePose(p, q);
 
       } else {
-        document.getElementById('pose').innerHTML = "<p style='color:red'>No pose</p>";
+        document.getElementById('pose').innerHTML = "<p style='color:red'>No pose</p><br><br><br>";
       }
     }
 
@@ -289,9 +289,9 @@
 
 
       var update = {
-        x: [[p.x]],
-        y: [[p.y]],
-        z: [[p.z]],
+        x: thePlot.data[0].x.concat([p.x]),
+        y: thePlot.data[0].y.concat([p.y]),
+        z: thePlot.data[0].z.concat([p.z]),
         'marker.color': 'red'
       };
 
