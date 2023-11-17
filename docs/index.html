@@ -8,7 +8,7 @@
   <meta name='apple-mobile-web-app-capable' content='yes'>
   <script src="quaternion.min.js"></script>
   <script src='https://cdn.plot.ly/plotly-2.27.0.min.js'></script>
-	<script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js'></script>
   <style>
     .cube {
       width: 40px;
@@ -16,7 +16,7 @@
       position: fixed;
       transform-style: preserve-3d;
       transform: translateZ(-20px);
-      right:45px;
+      right: 45px;
     }
 
     .cube.show-front {
@@ -102,12 +102,13 @@
     .cube__face--bottom {
       transform: rotateX(-90deg) translateZ(20px);
     }
-    button{
+
+    button {
       font-size: 30px;
-      padding:10px;
-      position:fixed;
-      right:5px;
-      top:5px;
+      padding: 10px;
+      position: fixed;
+      right: 5px;
+      top: 5px;
     }
   </style>
   <title>WebXR SLAM</title>
@@ -170,12 +171,35 @@
 
     function onButtonClicked() {
       if (!xrSession) {
-        // Ask for an optional DOM Overlay, see https://immersive-web.github.io/dom-overlays/
         navigator.xr.requestSession('immersive-ar', {
           optionalFeatures: ['dom-overlay'],
           domOverlay: { root: document.getElementById('overlay') }
         }).then(onSessionStarted, onRequestSessionError);
         document.getElementById('inAR').style.display = 'block';
+
+
+        Plotly.newPlot('plot', [{
+          type: 'scatter3d',
+          mode: 'lines+markers',
+          x: x,
+          y: y,
+          z: z,
+          line: {
+            width: 6,
+            color: c,
+            colorscale: "Viridis"
+          },
+          marker: {
+            size: 3.5,
+            color: c,
+            colorscale: "Greens",
+            cmin: -20,
+            cmax: 50
+          }
+        },
+        ]);
+
+
       } else {
         xrSession.end();
         document.getElementById('inAR').style.display = 'none';
@@ -244,18 +268,18 @@
         const p = pose.transform.position;
         const q = pose.transform.orientation;
         updatePose(p, q);
-   
+
       } else {
         document.getElementById('pose').innerText = "Position: (null pose)";
       }
     }
 
-    function updatePose(p, q){
+    function updatePose(p, q) {
       document.getElementById('pose').innerHTML = "Position: " +
-          p.x.toFixed(3) + ", " + p.y.toFixed(3) + ", " + p.z.toFixed(3) + "<br> " +
-          "Orientation: " + q.x.toFixed(3) + ", " + q.y.toFixed(3) + ", " + q.z.toFixed(3) + ", " + q.w.toFixed(3);
-          var q1 = new Quaternion(q.w,q.x,q.y,q.z);
-          document.getElementById("cube").style.transform = 'translateZ(-100px) matrix3d(' + q1.toMatrix4() + ')';
+        p.x.toFixed(3) + ", " + p.y.toFixed(3) + ", " + p.z.toFixed(3) + "<br> " +
+        "Orientation: " + q.x.toFixed(3) + ", " + q.y.toFixed(3) + ", " + q.z.toFixed(3) + ", " + q.w.toFixed(3);
+      var q1 = new Quaternion(q.w, q.x, q.y, q.z);
+      document.getElementById("cube").style.transform = 'translateZ(-100px) matrix3d(' + q1.toMatrix4() + ')';
     }
 
     initXR();
