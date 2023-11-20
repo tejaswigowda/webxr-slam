@@ -180,17 +180,35 @@
       thePlot = Plotly.newPlot('plot', [{
         type: 'scatter3d',
         mode: 'lines+markers',
+        scene: {
+          aspectmode: "manual",
+          aspectratio: {
+            x: 1, y: 0.7, z: 1,
+          },
+          xaxis: {
+            nticks: 9,
+            range: [-200, 100],
+          },
+          yaxis: {
+            nticks: 7,
+            range: [-100, 100],
+          },
+          zaxis: {
+            nticks: 10,
+            range: [-150, 100],
+          }
+        },
         x: [0],
         y: [0],
         z: [0],
         xaxis: {
-            range: [0, 10] 
+          range: [0, 10]
         },
         yaxis: {
-            range: [0, 10] 
+          range: [0, 10]
         },
         zaxis: {
-            range: [0, 10] 
+          range: [0, 10]
         },
         line: {
           width: 6,
