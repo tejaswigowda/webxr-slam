@@ -169,7 +169,12 @@
       }
 
       if (navigator.xr) {
+        // if touch screen, use touchstart
+        //if('ontouchstart' in window) {
+        //  xrButton.addEventListener('touchstart', onButtonClicked);
+        //} else {
         xrButton.addEventListener('click', onButtonClicked);
+        //}
         navigator.xr.addEventListener('devicechange', checkSupportedState);
         checkSupportedState();
       }
@@ -177,30 +182,40 @@
 
     function initPlot() {
       document.getElementById('inAR').style.display = 'block';
-      thePlot = Plotly.newPlot('plot', [{
-        type: 'scatter3d',
-        mode: 'lines+markers',
-        /*
-        ,*/
-        x: [0],
-        y: [0],
-        z: [0],
-        line: {
-          width: 1,
-          color: 'rgb(0, 0, 0)',
-          colorscale: "Viridis"
+      thePlot = Plotly.newPlot('plot', [
+        {
+          type: 'scatter3d',
+          mode: 'lines+markers',
+          x: [0],
+          y: [0],
+          z: [0],
+          line: {
+            width: 1,
+            color: 'black',
+            colorscale: "Viridis"
+          },
+          marker: {
+            size: 1,
+            color: 'black',
+            colorscale: "Greens",
+            cmin: -20,
+            cmax: 50
+          }
         },
-        marker: {
-          size: .5,
-          color: 'red',
-          colorscale: "Greens",
-          cmin: -20,
-          cmax: 50
-        }
-      },
-      ],
+        {
+          type: 'scatter3d',
+          mode: 'lines+markers',
+          x: [0],
+          y: [0],
+          z: [0],
+          line: { color: 'red', width: 1 },
+          marker: { color: 'red', size: 5 }
+        }],
         {
           autosize: false,
+          showlegend: false,
+          // hide axes 
+
           width: window.innerWidth,
           margin: {
             l: 0,
@@ -215,15 +230,46 @@
               x: 1, y: 0.7, z: 1,
             },
             xaxis: {
+              showgrid: true,
+              zeroline: true,
+              showline: false,
+              mirror: 'ticks',
+              gridcolor: '#bdbdbd',
+              gridwidth: 2,
+              zerolinecolor: '#969696',
+              zerolinewidth: 4,
+              linecolor: '#636363',
+              linewidth: 2,
               nticks: 20,
               range: [-10, 10],
             },
             yaxis: {
+              showgrid: true,
+              zeroline: true,
+              showline: true,
+              mirror: 'ticks',
+              gridcolor: '#bdbdbd',
+              gridwidth: 2,
+              zerolinecolor: '#969696',
+              zerolinewidth: 4,
+              linecolor: '#636363',
+              linewidth: 2,
               nticks: 20,
               range: [-10, 10],
             },
             zaxis: {
+              showgrid: true,
+              zeroline: true,
+              showline: true,
+              mirror: 'ticks',
+              gridcolor: '#bdbdbd',
+              gridwidth: 2,
+              zerolinecolor: '#969696',
+              zerolinewidth: 4,
+              linecolor: '#636363',
+              linewidth: 2,
               nticks: 20,
+              visible: false,
               range: [-10, 10],
             }
           }
@@ -310,7 +356,7 @@
         updatePose(p, q);
 
       } else {
-        document.getElementById('pose').innerHTML = "<p style='color:red'>No pose</p><br><br><br>";
+        document.getElementById('pose').innerHTML = "<p style='color:red'>No pose</p><br><br>";
       }
     }
 
@@ -329,6 +375,14 @@
         z: [[p.z.toFixed(1)]],
       }, [0]);
 
+
+      // move marker
+
+      Plotly.restyle('plot', {
+        x: [[p.x.toFixed(1)]],
+        y: [[p.y.toFixed(1)]],
+        z: [[p.z.toFixed(1)]],
+      }, [1]);
 
 
 
