@@ -303,7 +303,16 @@
       Plotly.extendTraces('plot', {
         x: [[p.x.toFixed(1)]],
         y: [[p.y.toFixed(1)]],
-        z: [[p.z.toFixed(1)]]
+        z: [[p.z.toFixed(1)]],
+        xaxis: {
+            range: [0, 10] 
+        },
+        yaxis: {
+            range: [0, 10] 
+        },
+        zaxis: {
+            range: [0, 10] 
+        }
       }, [0]);
 
 
