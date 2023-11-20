@@ -180,24 +180,8 @@
       thePlot = Plotly.newPlot('plot', [{
         type: 'scatter3d',
         mode: 'lines+markers',
-        scene: {
-          aspectmode: "manual",
-          aspectratio: {
-            x: 1, y: 0.7, z: 1,
-          },
-          xaxis: {
-            nticks: 20,
-            range: [-10, 10],
-          },
-          yaxis: {
-            nticks: 20,
-            range: [-10, 10],
-          },
-          zaxis: {
-            nticks: 20,
-            range: [-10, 10],
-          }
-        },
+        /*
+        ,*/
         x: [0],
         y: [0],
         z: [0],
@@ -214,7 +198,37 @@
           cmax: 50
         }
       },
-      ]);
+      ],
+        {
+          autosize: false,
+          width: window.innerWidth,
+          margin: {
+            l: 0,
+            r: 0,
+            b: 0,
+            t: 0,
+            pad: 4
+          },
+          scene: {
+            aspectmode: "manual",
+            aspectratio: {
+              x: 1, y: 0.7, z: 1,
+            },
+            xaxis: {
+              nticks: 20,
+              range: [-10, 10],
+            },
+            yaxis: {
+              nticks: 20,
+              range: [-10, 10],
+            },
+            zaxis: {
+              nticks: 20,
+              range: [-10, 10],
+            }
+          }
+        }
+      );
     }
 
     function onButtonClicked() {
