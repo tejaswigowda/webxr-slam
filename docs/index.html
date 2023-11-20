@@ -131,8 +131,9 @@
           <div class="cube__face cube__face--top">top</div>
           <div class="cube__face cube__face--bottom">bottom</div>
         </div>
-        <div id="plot" style="width: 100vw; height: 80vh; background-color: white;filter:invert(1)"></div>
         <p id="details"></p>
+
+        <div id="plot" style="width: 100vw; height: 80vh; background-color: white;filter:invert(1)"></div>
       </div>
       <div id="warning-zone"></div>
     </header>
@@ -290,14 +291,13 @@
 
       // append data
 
-      var update = {
+      Plotly.extendTraces('plot', {
         x: [[p.x]],
         y: [[p.y]],
         z: [[p.z]]
-      };
+      }, [0])
 
-      document.getElementById("details").innerHTML = JSON.stringify(update);
-      Plotly.restyle('plot', update);
+
 
 
     }
