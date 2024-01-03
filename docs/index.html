@@ -115,8 +115,8 @@
   <title>WebXR SLAM</title>
 </head>
 
-<body style="margin:0;background: black; font-family:Arial, Helvetica, sans-serif">
-  <div id="overlay" style="background-color: black;color:white; text-shadow: 0px 0px 2px black;">
+<body style="margin:0;background: transparent; font-family:Arial, Helvetica, sans-serif">
+  <div id="overlay" style="background-color: transparent;color:white; text-shadow: 0px 0px 2px black;">
     <header>
       <h1>WebXR SLAM</h1>
       <button id="xr-button" class="barebones-button" disabled>XR not found</button>
@@ -133,7 +133,7 @@
         </div>
         <p id="details"></p>
 
-        <div id="plot" style="width: 100vw; height: 80vh; background-color: white;filter:invert(1)"></div>
+        <div id="plot" style="width: 100vw; height: 80vh; background-color: white;filter:invert(1);display:none"></div>
       </div>
       <div id="warning-zone"></div>
     </header>
@@ -343,8 +343,8 @@
       gl.scissor(0, 0, width, height);
 
       //  black bg
-      gl.clearColor(0, 0, 0, 1);
-      gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+      //gl.clearColor(0, 0, 0, 1);
+      //gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
       // let time = Date.now();
       // gl.clearColor(Math.cos(time / 2000), Math.cos(time / 4000), Math.cos(time / 6000), 0.5);
       // gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
@@ -370,9 +370,9 @@
       // append data
 
       Plotly.extendTraces('plot', {
-        x: [[p.x.toFixed(1)]],
-        y: [[p.y.toFixed(1)]],
-        z: [[p.z.toFixed(1)]],
+        x: [[p.x.toFixed(5)]],
+        y: [[p.y.toFixed(5)]],
+        z: [[p.z.toFixed(5)]],
       }, [0]);
 
 
@@ -383,6 +383,19 @@
         y: [[p.y.toFixed(1)]],
         z: [[p.z.toFixed(1)]],
       }, [1]);
+
+
+      // make http request
+
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          //document.getElementById("details").innerHTML = this.responseText;
+        }
+      };
+
+      xhttp.open("GET", "http://10.211.182.246:9981/pose?x=" + p.x.toFixed(5) + "&y=" + p.y.toFixed(5) + "&z=" + p.z.toFixed(5) + "&qx=" + q.x.toFixed(5) + "&qy=" + q.y.toFixed(5) + "&qz=" + q.z.toFixed(5) + "&qw=" + q.w.toFixed(5), true);
+      xhttp.send();
 
 
 
