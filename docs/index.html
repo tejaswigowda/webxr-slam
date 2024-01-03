@@ -379,23 +379,11 @@
       // move marker
 
       Plotly.restyle('plot', {
-        x: [[p.x.toFixed(1)]],
-        y: [[p.y.toFixed(1)]],
-        z: [[p.z.toFixed(1)]],
+        x: [[p.x.toFixed(5)]],
+        y: [[p.y.toFixed(5)]],
+        z: [[p.z.toFixed(5)]],
       }, [1]);
 
-
-      // make http request
-
-      var xhttp = new XMLHttpRequest();
-      xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-          //document.getElementById("details").innerHTML = this.responseText;
-        }
-      };
-
-      xhttp.open("GET", "http://10.211.182.246:9981/pose?x=" + p.x.toFixed(5) + "&y=" + p.y.toFixed(5) + "&z=" + p.z.toFixed(5) + "&qx=" + q.x.toFixed(5) + "&qy=" + q.y.toFixed(5) + "&qz=" + q.z.toFixed(5) + "&qw=" + q.w.toFixed(5), true);
-      xhttp.send();
 
 
 
