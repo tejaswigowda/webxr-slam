@@ -119,7 +119,7 @@
   <div id="overlay" style="background-color: black;color:white; text-shadow: 0px 0px 2px black;">
     <header style="background-color: black;">
       <h1>WebXR SLAM</h1>
-      <button style='margin-top: 30px;' id="xr-button" class="barebones-button" disabled>XR not found</button>
+      <button style="position:fixed; top:30px; right: 20px" id="xr-button" class="barebones-button" disabled>XR not found</button>
 
       <div id="inAR" style="display: none;background:black">
         <div id="pose"></div>
@@ -372,7 +372,7 @@
       Plotly.extendTraces('plot', {
         x: [[p.x.toFixed(5)]],
         y: [[p.y.toFixed(5)]],
-        z: [[p.z.toFixed(5)]],
+        z: [[p.z.toFixed(5)]]
       }, [0]);
 
 
@@ -381,7 +381,7 @@
       Plotly.restyle('plot', {
         x: [[p.x.toFixed(5)]],
         y: [[p.y.toFixed(5)]],
-        z: [[p.z.toFixed(5)]],
+        z: [[p.z.toFixed(5)]]
       }, [1]);
 
 
