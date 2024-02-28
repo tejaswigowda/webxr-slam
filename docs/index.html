@@ -16,7 +16,7 @@
       position: fixed;
       transform-style: preserve-3d;
       transform: translateZ(-20px);
-      right: 45px;
+      right: 145px;
       margin-top: -70px;
     }
 
@@ -115,11 +115,11 @@
   <title>WebXR SLAM</title>
 </head>
 
-<body style="margin:0;background: transparent; font-family:Arial, Helvetica, sans-serif">
-  <div id="overlay" style="background-color: transparent;color:white; text-shadow: 0px 0px 2px black;">
+<body style="margin:0;background: black; font-family:Arial, Helvetica, sans-serif">
+  <div id="overlay" style="background-color: black;color:white; text-shadow: 0px 0px 2px black;">
     <header>
       <h1>WebXR SLAM</h1>
-      <button id="xr-button" class="barebones-button" disabled>XR not found</button>
+      <button style='margin-top: 30px;' id="xr-button" class="barebones-button" disabled>XR not found</button>
 
       <div id="inAR" style="display: none;">
         <div id="pose"></div>
@@ -181,7 +181,7 @@
     }
 
     function initPlot() {
-      document.getElementById('inAR').style.display = 'block';
+     // document.getElementById('inAR').style.display = 'block';
       thePlot = Plotly.newPlot('plot', [
         {
           type: 'scatter3d',
@@ -212,7 +212,7 @@
           marker: { color: 'red', size: 5 }
         }],
         {
-          autosize: false,
+          autosize: true,
           showlegend: false,
           // hide axes 
 
