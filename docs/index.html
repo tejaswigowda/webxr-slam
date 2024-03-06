@@ -116,7 +116,7 @@
 </head>
 
 <body style="margin:0; padding:0; background: black; font-family:Arial, Helvetica, sans-serif">
-  <img src="http://localhost:8081/index1.jpg" style="z-index:99999999999999;position:fixed">
+  <img id='mjpeg' src="http://localhost:8081/index1.jpg" style="z-index:99999999999999;position:fixed">
 
   <div id="overlay" style="background-color: black;color:white; text-shadow: 0px 0px 2px black;">
     <header style="background-color: black;">
@@ -384,6 +384,19 @@
     }
     initXR();
     initPlot();
+
+
+    // get base64 image
+    var img = document.getElementById('mjpeg');
+    var canvas = document.createElement('canvas');
+    var ctx = canvas.getContext('2d');
+    img.onload = function () {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.drawImage(img, 0, 0, img.width, img.height);
+      var dataURL = canvas.toDataURL('image/jpeg');
+      console.log(dataURL);
+    };
   </script>
 </body>
 </html>
