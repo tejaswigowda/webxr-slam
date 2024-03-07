@@ -388,6 +388,7 @@
 
     // get base64 image
     setInterval(function () {
+      console.log(new Date().getTime() / 1000);
       var img = document.getElementById('mjpeg');
       var canvas = document.createElement('canvas');
       var ctx = canvas.getContext('2d');
@@ -401,7 +402,7 @@
         console.log(dataURL);
       };
     }, 1000/60);
-    
+
   </script>
 </body>
 </html>
