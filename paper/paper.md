@@ -1,0 +1,13 @@
+# Visual Odometry-based Positioning System using a USB Dongle and any Consumer Phone/ XR Device
+
+## Abstract
+
+This paper presents a visual odometry-based positioning system that uses a USB dongle and any consumer phone. The system is designed to provide accurate positioning information in indoor environments where GPS signals are not available. The system consists of a USB dongle that creates a Wi-Fi hotspot and serves a html page that captures images from a camera and a smartphone that processes the images to estimate the position of the user. The system uses off-the shelf visual odometry techniques to estimate the position of the user by tracking the movement of the camera. The system has been tested in various indoor environments and has shown promising results in terms of accuracy and robustness. The system can be used in a wide range of applications, such as indoor navigation, augmented reality, and location-based services.
+
+## Introduction
+
+Visual odometry is the process of estimating the position of a camera by tracking the movement of the camera. Visual odometry has been widely used in robotics and computer vision to estimate the position of a robot or a camera in a 3D environment. Visual odometry is typically performed using a camera that captures images of the environment and processes the images to estimate the position of the camera. Visual odometry can be used in a wide range of applications, such as robotics, augmented reality, and location-based services. Visual odometry is particularly useful in indoor environments where GPS signals are not available. More recently visual odometry is built into XR devices to provide accurate positioning information in indoor environments. This proposed appraoch uses this capability and extends its funtionality and application, by using a USB dongle which creates a Wi-Fi hotspot and serves a html page that captures images from a camera and a smartphone that processes the images to estimate the position of the user. This data is then relayed via the serial port. This form factor allows for a more compact and portable solution that can be easily integrated into existing systems. Furthermore, the system is designed to be low-cost and easy to use, making it accessible to a wide range of users. Since USB protocol is built to work in serial communication, multiple devices can be now tracked together in a single system.
+
+## System Architecture
+
+<img src="images/sysArch.excalidraw" width="300">
