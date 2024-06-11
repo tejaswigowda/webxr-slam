@@ -113,8 +113,8 @@ var x = `http://${ipAddr}:${port}/test`;
 server.listen(port, () => {
     qrcode.generate(`http://${ipAddr}:${port}`, { small: true }, function (qrcode) {
         console.log(qrcode);
-        console.log(chalk.black.bgGreen(`Connect mobile browser at:`));
-        console.log(chalk.white(`http://${ipAddr}:${port}/\n`));
+        console.log(chalk.blue.bgWhite(`Connect mobile browser to:`));
+        console.log(chalk.blue(`http://${ipAddr}:${port}/\n`));
         console.log(chalk.black.bgGreen(`Test Page:\n http://${ipAddr}:${port}/test/`));
         console.log(chalk.white(`WebSocket Client: ws://${ipAddr}:${port}/xr-slam-client\n`));
     });
