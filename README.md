@@ -25,6 +25,6 @@ webxr-slam 8080
 
 ## Known issues
 
-Only works on android devices. WebXR is not supported on iOS devices.
+- Only works on android devices. WebXR is not supported on iOS devices.
 
-Please add the url to the trusted sites in the browser settings to allow the camera to be accessed. In chrome it is [chrome://flags/#unsafely-treat-insecure-origin-as-secure](chrome://flags/#unsafely-treat-insecure-origin-as-secure).
+- Please add the url to the trusted sites in the browser settings to allow the camera to be accessed. In chrome it is [chrome://flags/#unsafely-treat-insecure-origin-as-secure](chrome://flags/#unsafely-treat-insecure-origin-as-secure).
