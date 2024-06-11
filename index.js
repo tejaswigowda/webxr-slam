@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+var port = parseInt(process.argv[2] || 8888);
+
 var qrcode = require('qrcode-terminal');
 const chalk = require('chalk')
 
@@ -26,10 +28,11 @@ const url = require('url');
 
 const WebSocket = require('ws');
 
-const port = parseInt(process.argv[2] || 8888);
-
 const wss1 = new WebSocket.Server({ noServer: true });
 const wss2 = new WebSocket.Server({ noServer: true });
+
+const intWS = new WebSocket('ws://localhost:' + port + '/xr-slam-server');
+    
 
 // camera websocket
 wss1.on('connection', function connection(ws) {
@@ -54,11 +57,11 @@ wss2.on('connection', function connection(ws) {
 server.on('upgrade', function upgrade(request, socket, head) {
     const pathname = url.parse(request.url).pathname;
 
-    if (pathname === '/jpgstream_server') {
+    if (pathname === '/xr-slam-server') {
         wss1.handleUpgrade(request, socket, head, function done(ws) {
             wss1.emit('connection', ws, request);
         });
-    } else if (pathname === '/jpgstream_client') {
+    } else if (pathname === '/xr-slam-client') {
         wss2.handleUpgrade(request, socket, head, function done(ws) {
             wss2.emit('connection', ws, request);
         });
@@ -85,7 +88,17 @@ app.get("/numberofclients", function (req, res) {
 app.get("/data", function (req, res) {
     res.writeHead(200, { 'Content-Type': 'text/plain' }); // send response header
     console.log(req.query);
+    console.log(chalk.black.bgGreen(`Test Page\n: http://${ipAddr}:${port}/test/`));
+    console.log(chalk.white(`WebScoket Client: ws://${ipAddr}:${port}/xr-slam-client\n`));
     res.end(''); // send response body
+    if(intWS.readyState === WebSocket.OPEN) {
+        intWS.send(JSON.stringify(req.query));
+    }
+    else {
+        intWS = new WebSocket('ws://localhost:' + port + '/xr-slam-server');
+        intWS.send(JSON.stringify(req.query));
+    }
+
 });
 
 app.get("/sendData", function (req, res) {
