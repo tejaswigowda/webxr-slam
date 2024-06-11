@@ -11,3 +11,11 @@ This is a simple command line tool. It generates a web server that can be connec
 ## Usage
 
 ```bash
+webxr-slam [port]
+```
+
+## Example
+
+```bash
+webxr-slam 8080
+```
