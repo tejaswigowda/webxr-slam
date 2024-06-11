@@ -5,7 +5,7 @@ var WebSocket = require('ws');
 var ws = new WebSocket('ws://localhost:' + port + '/xr-slam-client');
 
 ws.on('open', function open() {
-    console.log('connected');
+    console.log('connected to ws://localhost:' + port + '/xr-slam-client');
 });
 
 ws.on('close', function close() {
