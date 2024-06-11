@@ -88,8 +88,8 @@ app.get("/numberofclients", function (req, res) {
 app.get("/data", function (req, res) {
     res.writeHead(200, { 'Content-Type': 'text/plain' }); // send response header
     console.log(req.query);
-    console.log(chalk.black.bgGreen(`Test Page\n: http://${ipAddr}:${port}/test/`));
-    console.log(chalk.white(`WebScoket Client: ws://${ipAddr}:${port}/xr-slam-client\n`));
+    console.log(chalk.black.bgGreen(`Test Page:\n http://${ipAddr}:${port}/test/`));
+    console.log(chalk.white(`WebSocket Client: ws://${ipAddr}:${port}/xr-slam-client\n`));
     res.end(''); // send response body
     if(intWS.readyState === WebSocket.OPEN) {
         intWS.send(JSON.stringify(req.query));
