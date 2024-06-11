@@ -115,6 +115,8 @@ server.listen(port, () => {
         console.log(qrcode);
         console.log(chalk.black.bgGreen(`Connect mobile browser at:`));
         console.log(chalk.white(`http://${ipAddr}:${port}/\n`));
+        console.log(chalk.black.bgGreen(`Test Page:\n http://${ipAddr}:${port}/test/`));
+        console.log(chalk.white(`WebSocket Client: ws://${ipAddr}:${port}/xr-slam-client\n`));
     });
 });
 
