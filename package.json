@@ -1,6 +1,6 @@
 {
   "name": "webxr-slam",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "slam on any phone supporting WebXR",
   "main": "index.js",
   "bin": {
