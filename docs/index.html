@@ -10,106 +10,11 @@
   <script src='plotly-2.27.0.min.js'></script>
   <script src='d3.min.js'></script>
   <script src='jquery-3.5.1.min.js'></script>
+  <script src='three.min.js'></script>
   <style>
     body {
-      -webkit-user-select: none;
       -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
       tap-highlight-color: rgba(0, 0, 0, 0);
-      user-select: none;
-    }
-
-    .cube {
-      width: 40px;
-      height: 40px;
-      position: fixed;
-      transform-style: preserve-3d;
-      transform: translateZ(-20px);
-      right: 145px;
-      margin-top: -70px;
-    }
-
-    .cube.show-front {
-      transform: translateZ(-20px) rotateY(0deg);
-    }
-
-    .cube.show-right {
-      transform: translateZ(-20px) rotateY(-90deg);
-    }
-
-    .cube.show-back {
-      transform: translateZ(-20px) rotateY(-180deg);
-    }
-
-    .cube.show-left {
-      transform: translateZ(-20px) rotateY(90deg);
-    }
-
-    .cube.show-top {
-      transform: translateZ(-20px) rotateX(-90deg);
-    }
-
-    .cube.show-bottom {
-      transform: translateZ(-20px) rotateX(90deg);
-    }
-
-    .cube__face {
-      position: absolute;
-      width: 40px;
-      height: 40px;
-      border: 0px solid black;
-      line-height: 200px;
-      font-size: 0px;
-      font-weight: bold;
-      color: white;
-      text-align: center;
-    }
-
-    .cube__face--front {
-      background: hsla(0, 100%, 50%, 0.7);
-    }
-
-    .cube__face--right {
-      background: hsla(60, 100%, 50%, 0.7);
-    }
-
-    .cube__face--back {
-      background: hsla(120, 100%, 50%, 0.7);
-    }
-
-    .cube__face--left {
-      background: hsla(180, 100%, 50%, 0.7);
-    }
-
-    .cube__face--top {
-      background: hsla(240, 100%, 50%, 0.7);
-    }
-
-    .cube__face--bottom {
-      background: hsla(300, 100%, 50%, 0.7);
-    }
-
-    .cube__face--front {
-      transform: rotateY(0deg) translateZ(20px);
-    }
-
-    .cube__face--right {
-      transform: rotateY(90deg) translateZ(20px);
-    }
-
-    .cube__face--back {
-      transform: rotateY(180deg) translateZ(20px);
-    }
-
-    .cube__face--left {
-      transform: rotateY(-90deg) translateZ(20px);
-    }
-
-    .cube__face--top {
-      transform: rotateX(90deg) translateZ(20px);
-    }
-
-    .cube__face--bottom {
-      transform: rotateX(-90deg) translateZ(20px);
     }
 
     button {
@@ -133,25 +38,26 @@
 
       <div id="inAR" style="height:110vh; margin-top:-20px; display: none;background:black">
         <div id="pose"></div>
-        <div id='cube' class="cube">
-          <div class="cube__face cube__face--front">front</div>
-          <div class="cube__face cube__face--back">back</div>
-          <div class="cube__face cube__face--right">right</div>
-          <div class="cube__face cube__face--left">left</div>
-          <div class="cube__face cube__face--top">top</div>
-          <div class="cube__face cube__face--bottom">bottom</div>
-        </div>
         <p id="details"></p>
 
-        <div id="plot" style="width: 100vw; height: 80vh; background-color: white;filter:invert(1);display:block"></div>
+        <div id="plot" style="width: 100vw; height: 80vh; background-color: white;filter:invert(1);display:none"></div>
+        <div id="threescene"
+          style="width: 100vw; height: 80vh; background-color: white;position:fixed; top:200px; z-index:9999999999999999">
+        </div>
       </div>
       <div id="warning-zone"></div>
     </header>
   </div>
   <script>
     var thePlot;
+    var renderer, scene, camera, cube, trackingLine, controls;
+    var line_tracker = [];
   </script>
   <script type="module">
+    import * as THREE from "https://cdn.jsdelivr.net/gh/mesquite-mocap/mesquite.cc@latest/build-static/three.module.js";
+    import Stats from "https://cdn.jsdelivr.net/gh/mesquite-mocap/mesquite.cc@latest/build-static/stats.module.js";
+    import { OrbitControls } from "https://cdn.jsdelivr.net/gh/mesquite-mocap/mesquite.cc@latest/build-static/OrbitControls.js";
+
     // XR globals.
     let xrButton = document.getElementById('xr-button');
     let xrSession = null;
@@ -191,102 +97,88 @@
     }
 
     function initPlot() {
-      // document.getElementById('inAR').style.display = 'block';
-      thePlot = Plotly.newPlot('plot', [
-        {
-          type: 'scatter3d',
-          mode: 'lines+markers',
-          x: [0],
-          y: [0],
-          z: [0],
-          line: {
-            width: 1,
-            color: 'black',
-            colorscale: "Viridis"
-          },
-          marker: {
-            size: 1,
-            color: 'black',
-            colorscale: "Greens",
-            cmin: -20,
-            cmax: 50
-          }
-        },
-        {
-          type: 'scatter3d',
-          mode: 'lines+markers',
-          x: [0],
-          y: [0],
-          z: [0],
-          line: { color: 'red', width: 1 },
-          marker: { color: 'red', size: 5 }
-        }],
-        {
-          autosize: true,
-          showlegend: false,
-          // hide axes 
+      document.getElementById('inAR').style.display = 'block';
 
-          width: window.innerWidth,
-          margin: {
-            l: 0,
-            r: 0,
-            b: 0,
-            t: 0,
-            pad: 4
-          },
-          scene: {
-            aspectmode: "manual",
-            aspectratio: {
-              x: 1, y: 0.7, z: 1,
-            },
-            xaxis: {
-              showgrid: true,
-              zeroline: true,
-              showline: false,
-              mirror: 'ticks',
-              gridcolor: '#bdbdbd',
-              gridwidth: 2,
-              zerolinecolor: '#969696',
-              zerolinewidth: 4,
-              linecolor: '#636363',
-              linewidth: 2,
-              nticks: 0,
-              range: [-20, 20],
-            },
-            yaxis: {
-              showgrid: true,
-              zeroline: true,
-              showline: true,
-              mirror: 'ticks',
-              gridcolor: '#bdbdbd',
-              gridwidth: 2,
-              zerolinecolor: '#969696',
-              zerolinewidth: 4,
-              linecolor: '#636363',
-              linewidth: 2,
-              nticks: 0,
-              range: [-20, 20],
-            },
-            zaxis: {
-              showgrid: true,
-              zeroline: true,
-              showline: true,
-              mirror: 'ticks',
-              gridcolor: '#bdbdbd',
-              gridwidth: 2,
-              zerolinecolor: '#969696',
-              zerolinewidth: 4,
-              linecolor: '#636363',
-              linewidth: 2,
-              nticks: 0,
-              visible: false,
-              range: [-20, 20],
-            }
-          }
-        }
+      // three scene
+      scene = new THREE.Scene();
+      camera = new THREE.PerspectiveCamera(
+        45,
+        window.innerWidth / window.innerHeight,
+        1,
+        2000
       );
+      camera.position.set(0, 100, 600);
+      renderer = new THREE.WebGLRenderer();
+      renderer.setSize(document.getElementById('threescene').clientWidth, document.getElementById('threescene').clientHeight);
+      document.getElementById('threescene').appendChild(renderer.domElement);
+
+      // infinite grid
+      const grid = new THREE.GridHelper(4000, 80, 0xaaaaaa, 0xcccccc);
+      grid.material.opacity = 0.2;
+      grid.material.transparent = true;
+
+      const axesHelper = new THREE.AxesHelper(10);
+      scene.add(axesHelper);
+      scene.add(grid);
+
+      const piece = new THREE.BoxGeometry(10, 10, 10).toNonIndexed();
+      const material = new THREE.MeshBasicMaterial({
+        vertexColors: true
+      });
+      const positionAttribute = piece.getAttribute('position');
+      const colors = [];
+
+      const color = new THREE.Color();
+
+      for (let i = 0; i < positionAttribute.count; i += 6) {
+
+        color.setHex(0xffffff * Math.random());
+
+        colors.push(color.r, color.g, color.b);
+        colors.push(color.r, color.g, color.b);
+        colors.push(color.r, color.g, color.b);
+
+        colors.push(color.r, color.g, color.b);
+        colors.push(color.r, color.g, color.b);
+        colors.push(color.r, color.g, color.b);
+      } // for
+
+      // define the new attribute
+      piece.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+      cube = new THREE.Mesh(piece, material);
+      scene.add(cube);
+
+      var lineMaterial = new THREE.LineBasicMaterial({ color: 0x00ff00 });
+      var lineGeometry = new THREE.BufferGeometry();
+
+      lineGeometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(line_tracker), 3));
+      trackingLine = new THREE.Line(lineGeometry, lineMaterial);
+      scene.add(trackingLine);
+
+      // orbital controls
+      controls = new OrbitControls(camera, renderer.domElement);
+      controls.target.set(0, 100, 0);
+      controls.enableZoom = true;
+      controls.update();
+
+      animate();
     }
 
+
+    function animate() {
+      requestAnimationFrame(animate);
+      cube.position.sub(camera.position, cube.position).normalize();
+      controls.update();
+      cube.quaternion.copy(quat);
+      var scaleFac = 20;
+      cube.position.set(pos.x * scaleFac, pos.y * scaleFac, pos.z * scaleFac);
+      line_tracker.push(pos.x * scaleFac, pos.y * scaleFac, pos.z * scaleFac);
+      var lineGeometry = new THREE.BufferGeometry();
+      lineGeometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(line_tracker), 3));
+      trackingLine.geometry = lineGeometry;
+
+      renderer.render(scene, camera);
+    }
     function onButtonClicked() {
       if (!xrSession) {
         navigator.xr.requestSession('immersive-ar', {
@@ -294,7 +186,7 @@
           domOverlay: { root: document.getElementById('overlay') }
         }).then(onSessionStarted, onRequestSessionError);
         document.getElementById('inAR').style.display = 'block';
-        initPlot();
+        // initPlot();
       } else {
         xrSession.end();
         document.getElementById('inAR').style.display = 'none';
@@ -360,7 +252,7 @@
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
       }
-      
+
 
       let pose = frame.getViewerPose(xrRefSpace);
       if (pose) {
@@ -373,12 +265,16 @@
       }
     }
 
+    var quat = new THREE.Quaternion(0, 0, 0, 1);
+    var pos = new THREE.Vector3(0, 0, 0);
+
     function updatePose(p, q) {
       document.getElementById('pose').innerHTML = "Position: <br>" +
         p.x.toFixed(3) + ", " + p.y.toFixed(3) + ", " + p.z.toFixed(3) + "<br> " +
         "Orientation: <br>" + q.x.toFixed(3) + ", " + q.y.toFixed(3) + ", " + q.z.toFixed(3) + ", " + q.w.toFixed(3);
-      var q1 = new Quaternion(q.w, q.x, q.y, q.z);
-      document.getElementById("cube").style.transform = 'translateZ(-100px) matrix3d(' + q1.toMatrix4() + ')';
+
+        quat = new THREE.Quaternion(q.x, q.y, q.z, q.w);
+        pos = new THREE.Vector3(p.x, p.y, p.z);
 
       if (sendData) {
         $.get("./data", { x: p.x.toFixed(5), y: p.y.toFixed(5), z: p.z.toFixed(5), qx: q.x.toFixed(5), qy: q.y.toFixed(5), qz: q.z.toFixed(5), qw: q.w.toFixed(5) }, function (data) {
