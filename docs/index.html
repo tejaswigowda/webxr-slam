@@ -11,12 +11,13 @@
   <script src='d3.min.js'></script>
   <script src='jquery-3.5.1.min.js'></script>
   <style>
-    body{
+    body {
       -webkit-user-select: none;
       -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
       tap-highlight-color: rgba(0, 0, 0, 0);
       user-select: none;
     }
+
     .cube {
       width: 40px;
       height: 40px;
@@ -122,11 +123,13 @@
   <title>WebXR SLAM</title>
 </head>
 
-<body style="margin:0; padding:0; padding-top:20px; background: black; font-family:Arial, Helvetica, sans-serif; overflow:hidden">
+<body
+  style="margin:0; padding:0; padding-top:20px; background: black; font-family:Arial, Helvetica, sans-serif; overflow:hidden">
   <div id="overlay" style="background-color: black;color:white; text-shadow: 0px 0px 2px black; height: 100vh">
     <header style="background-color: black;">
       <h1>WebXR SLAM</h1>
-      <button style="position:fixed; top:30px; right: 20px" id="xr-button" class="barebones-button" disabled>XR not found</button>
+      <button style="position:fixed; top:30px; right: 20px" id="xr-button" class="barebones-button" disabled>XR not
+        found</button>
 
       <div id="inAR" style="height:110vh; margin-top:-20px; display: none;background:black">
         <div id="pose"></div>
@@ -188,7 +191,7 @@
     }
 
     function initPlot() {
-     // document.getElementById('inAR').style.display = 'block';
+      // document.getElementById('inAR').style.display = 'block';
       thePlot = Plotly.newPlot('plot', [
         {
           type: 'scatter3d',
@@ -335,26 +338,28 @@
       window.location.reload();
     }
 
+    var frame = 0;
     function onXRFrame(t, frame) {
+      frame++;
       let session = frame.session;
       session.requestAnimationFrame(onXRFrame);
 
-      gl.bindFramebuffer(gl.FRAMEBUFFER, session.renderState.baseLayer.framebuffer);
+      if (frame < 4) {
+        gl.bindFramebuffer(gl.FRAMEBUFFER, session.renderState.baseLayer.framebuffer);
 
-      // Update the clear color so that we can observe the color in the
-      // headset changing over time. Use a scissor rectangle to keep the AR
-      // scene visible.
-      const width = session.renderState.baseLayer.framebufferWidth;
-      const height = session.renderState.baseLayer.framebufferHeight;
-      gl.enable(gl.SCISSOR_TEST);
-      gl.scissor(0, 0, width, height);
+        // Update the clear color so that we can observe the color in the
+        // headset changing over time. Use a scissor rectangle to keep the AR
+        // scene visible.
+        const width = session.renderState.baseLayer.framebufferWidth;
+        const height = session.renderState.baseLayer.framebufferHeight;
+        gl.enable(gl.SCISSOR_TEST);
+        gl.scissor(0, 0, width, height);
 
-      //  black bg
-      gl.clearColor(0, 0, 0, 1);
-      gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-      // let time = Date.now();
-      // gl.clearColor(Math.cos(time / 2000), Math.cos(time / 4000), Math.cos(time / 6000), 0.5);
-      // gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+        //  black bg
+        gl.clearColor(0, 0, 0, 1);
+        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+      }
 
       let pose = frame.getViewerPose(xrRefSpace);
       if (pose) {
@@ -374,8 +379,8 @@
       var q1 = new Quaternion(q.w, q.x, q.y, q.z);
       document.getElementById("cube").style.transform = 'translateZ(-100px) matrix3d(' + q1.toMatrix4() + ')';
 
-      if(sendData){
-        $.get("./data", {x: p.x.toFixed(5), y: p.y.toFixed(5), z: p.z.toFixed(5), qx: q.x.toFixed(5), qy: q.y.toFixed(5), qz: q.z.toFixed(5), qw: q.w.toFixed(5)}, function(data) {
+      if (sendData) {
+        $.get("./data", { x: p.x.toFixed(5), y: p.y.toFixed(5), z: p.z.toFixed(5), qx: q.x.toFixed(5), qy: q.y.toFixed(5), qz: q.z.toFixed(5), qw: q.w.toFixed(5) }, function (data) {
           //console.log(data);
         });
       }
@@ -397,11 +402,12 @@
     initPlot();
 
     var sendData = false;
-    $.get("./sendData", function(data) {
+    $.get("./sendData", function (data) {
       if (data == "ok") {
         sendData = true;
       }
     });
   </script>
 </body>
+
 </html>
