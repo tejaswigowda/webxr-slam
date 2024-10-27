@@ -338,13 +338,13 @@
       window.location.reload();
     }
 
-    var frame = 0;
+    var framen = 0;
     function onXRFrame(t, frame) {
-      frame++;
+      framen++;
       let session = frame.session;
       session.requestAnimationFrame(onXRFrame);
 
-      if (frame < 4) {
+      if (framen < 4) {
         gl.bindFramebuffer(gl.FRAMEBUFFER, session.renderState.baseLayer.framebuffer);
 
         // Update the clear color so that we can observe the color in the
@@ -360,6 +360,7 @@
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
       }
+      
 
       let pose = frame.getViewerPose(xrRefSpace);
       if (pose) {
