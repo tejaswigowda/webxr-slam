@@ -344,7 +344,7 @@
       let session = frame.session;
       session.requestAnimationFrame(onXRFrame);
 
-      if (framen < 4) {
+      if (framen % 10 == 0) {
         gl.bindFramebuffer(gl.FRAMEBUFFER, session.renderState.baseLayer.framebuffer);
 
         // Update the clear color so that we can observe the color in the
