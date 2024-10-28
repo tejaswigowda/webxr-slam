@@ -43,7 +43,7 @@
 
         <div id="plot" style="width: 100vw; height: 80vh; background-color: white;filter:invert(1);display:none"></div>
         <div id="threescene"
-          style="width: 100vw; height: 80vh; background-color: white;position:fixed; top:200px; z-index:9999999999999999">
+          style="width: 100vw; height: 80vh; background-color: rgb(0, 0, 0);position:fixed; top:200px; z-index:9999999999999999">
         </div>
       </div>
       <div id="warning-zone"></div>
@@ -114,8 +114,8 @@
       document.getElementById('threescene').appendChild(renderer.domElement);
 
       // infinite grid
-      const grid = new THREE.GridHelper(4000, 80, 0xaaaaaa, 0xcccccc);
-      grid.material.opacity = 0.2;
+      const grid = new THREE.GridHelper(4000, 80, 0xffffff, 0xcccccc);
+      grid.material.opacity = 0.3;
       grid.material.transparent = true;
 
       const axesHelper = new THREE.AxesHelper(10);
@@ -148,8 +148,9 @@
       piece.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
       cube = new THREE.Mesh(piece, material);
       scene.add(cube);
+      cube.position.set(0 ,100, 0);
 
-      var lineMaterial = new THREE.LineBasicMaterial({ color: 0x00ff00 });
+      var lineMaterial = new THREE.LineBasicMaterial({ color: 0xff00ff });
       var lineGeometry = new THREE.BufferGeometry();
 
       lineGeometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(line_tracker), 3));
