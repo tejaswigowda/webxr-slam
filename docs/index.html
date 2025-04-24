@@ -50,6 +50,12 @@
     </header>
   </div>
   <script>
+
+    // check if ios
+    if (navigator.userAgent.match(/(iPod|iPhone|iPad)/)) {
+      window.location.href = "./ios";
+    }
+    if
     var thePlot;
     var renderer, scene, camera, cube, trackingLine, controls;
     var line_tracker = [];

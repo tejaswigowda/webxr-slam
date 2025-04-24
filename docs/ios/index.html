@@ -4,7 +4,7 @@
 	<title>Simple AR example</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-			<script src="./three.min.js"></script>
+			<script src="../three.min.js"></script>
 	<!--
 	<script src="https://cdn.jsdelivr.net/gh/tejaswigowda/webxr-slam-ios@latest/docs/libs/three/three.min.js"></script>
 							-->
@@ -109,15 +109,6 @@
 					session.requestAnimationFrame(handleAnimationFrame);
 				});
 
-				// initialize scene
-
-				//engine.addAmbientLight();
-				//engine.addDirectionalLight();
-
-				// Add a box and sphere at the origin of the eye-level coordinate system
-				//engine.addBox([0, 0, 0], [0.025, 0.025, 0.025], 0x44ff44);
-				//engine.addTeapot([0,0, -1]);
-				//engine.addAxesHelper([0,0,0], [0.2,0.2,0.2]);
 			};
 
 			const onSessionEnd = event => {
@@ -141,12 +132,7 @@
 				const position = pose.transform.position;
 				document.getElementById('data').innerHTML = `Position: ${position.x.toFixed(2)}, ${position.y.toFixed(2)}, ${position.z.toFixed(2)}` + "<br>" +
 					`Orientation: ${pose.transform.orientation.x.toFixed(2)}, ${pose.transform.orientation.y.toFixed(2)}, ${pose.transform.orientation.z.toFixed(2)}, ${pose.transform.orientation.w.toFixed(2)}` + "<br>" 
-				// send ws message
-				if (wsconnect) {
-					ws.send(JSON.stringify({
-						position: position
-					}));
-				}
+
 				engine.startFrame();
 				/*
 				for (const view of pose.views) {
@@ -167,43 +153,6 @@
 			}
 
 			initXR();
-
-			var wsconnect = false;
-        var wsurl = "ws://" + window.location.hostname + ":" + window.location.port + "/set";
-        var wsfps = 30;
-        var wsIntProcess = null;
-        var ws;
-        var wson = true;
-
-			function connectws() {
-            ws = new WebSocket(wsurl);
-            ws.onopen = function () {
-                wsconnect = true;
-                // subscribe to some channels
-                ws.send(JSON.stringify({
-                    //.... some message the I must send when I connect ....
-                }));
-            };
-
-            ws.onmessage = function (e) {
-                console.log('Message:', e.data);
-            };
-
-            ws.onclose = function (e) {
-                wsconnect = false;
-                //console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
-                setTimeout(function () {
-                    connectws();
-                }, 1000);
-            };
-
-            ws.onerror = function (err) {
-                //console.error('Socket encountered error: ', err.message, 'Closing socket');
-                ws.close();
-            };
-        }
-
-        connectws();
 		</script>
 </body>
 <div id="overlay"
